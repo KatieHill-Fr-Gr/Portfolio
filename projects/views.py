@@ -12,10 +12,9 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 class ProjectsListView(APIView):
 
     def get(self, request):
-        projects = Project.objects.all()
+        projects = Project.objects.prefetch_related('images', 'links').all() # Reduce the number of calls to the api
         serialized_projects = ProjectSerializer(projects, many=True)
         return Response(serialized_projects.data)
-
 
 
 
@@ -27,8 +26,7 @@ class ProjectDetailView(APIView):
     def get_project(self, pk):
         try:
             return Project.objects.get(pk=pk)
-        except Project.DoesNotExist as e:
-            print(e)
+        except Project.DoesNotExist:
             raise NotFound('Project does not exist.')  
         
     # Show
@@ -44,7 +42,7 @@ class ProjectDetailView(APIView):
         serialized_project = ProjectSerializer(project, data=request.data, partial=True)
         serialized_project.is_valid(raise_exception=True)
         serialized_project.save()
-        return Response(serialized_project.validated_data)
+        return Response(ProjectSerializer(project).data) # Return the full project object including image and links
     
     # Delete
     def delete(self, request, pk):
