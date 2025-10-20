@@ -1,7 +1,6 @@
 from django.urls import path
-# from technologies.views import TechnologiesListView, TechnologyDetailView
+from technologies.views import TechnologiesListView
 
-# urlpatterns = [
-#     path('', TechnologiesListView.as_view()),
-#     path('<int:pk>/', TechnologyDetailView.as_view())
-# ]
+urlpatterns = [
+    path('', TechnologiesListView.as_view()),
+]
