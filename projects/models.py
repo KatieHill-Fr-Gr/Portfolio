@@ -5,9 +5,7 @@ class Project(models.Model):
     description = models.TextField()
     contributor = models.ManyToManyField(
         to='users.User',
-        on_delete=models.SET_NULL,
         related_name='contributed_projects',
-        null=True,
         blank=True
     )
     technologies = models.ManyToManyField(

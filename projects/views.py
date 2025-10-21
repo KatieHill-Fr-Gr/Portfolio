@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from .models import Project
 
 from .serializers.common import ProjectSerializer
+from users.serializers.common import ContributorSerializer
 
-from rest_framework.exceptions import NotFound, PermissionDenied
+from rest_framework.exceptions import NotFound
 
 # * Path: /projects
 
@@ -54,3 +55,15 @@ class ProjectDetailView(APIView):
         project = self.get_project(pk)    
         project.delete()
         return Response(status=204)
+    
+# * Path: /projects/<int:pk>/contributors
+
+class ProjectContributorsView(APIView):
+    serializer_class = ContributorSerializer
+    
+    # def get_queryset(self):
+    #     project_id = self.kwargs.get('pk')
+    #     project = Project.objects.select_related('contributed_projects').filter(pk=project_id).first()
+    #     if project:
+    #         return User.objects.filter(team=project.team)
+    #     return User.objects.none()
