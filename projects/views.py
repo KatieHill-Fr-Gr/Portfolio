@@ -15,9 +15,14 @@ class ProjectsListView(APIView):
         projects = Project.objects.prefetch_related('images', 'links').all() # Reduce the number of calls to the api
         serialized_projects = ProjectSerializer(projects, many=True)
         return Response(serialized_projects.data)
-
-
-
+    
+    def post(self, request):
+        serialized_projects = ProjectSerializer(data=request.data) # deserialize request data
+        serialized_projects.is_valid(raise_exception=True) # validate request data
+        serialized_projects.save() # save it
+        return Response(serialized_projects.data) # return the data
+        
+        
 # * Path: /projects/<int:pk>
 
 class ProjectDetailView(APIView):
