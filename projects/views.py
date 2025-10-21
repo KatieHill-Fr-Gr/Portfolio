@@ -48,7 +48,7 @@ class ProjectDetailView(APIView):
         serialized_project = ProjectSerializer(project, data=request.data, partial=True)
         serialized_project.is_valid(raise_exception=True)
         serialized_project.save()
-        return Response(ProjectSerializer(project).data) # Return the full project object including image and links
+        return Response(ProjectSerializer(project).data) # Return the full project object including contributors, image and links
     
     # Delete
     def delete(self, request, pk):
@@ -56,14 +56,3 @@ class ProjectDetailView(APIView):
         project.delete()
         return Response(status=204)
     
-# * Path: /projects/<int:pk>/contributors
-
-class ProjectContributorsView(APIView):
-    serializer_class = ContributorSerializer
-    
-    # def get_queryset(self):
-    #     project_id = self.kwargs.get('pk')
-    #     project = Project.objects.select_related('contributed_projects').filter(pk=project_id).first()
-    #     if project:
-    #         return User.objects.filter(team=project.team)
-    #     return User.objects.none()
