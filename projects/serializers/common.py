@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer
+from users.serializers.common import ContributorSerializer
 from ..models import Project, ProjectImage, ProjectLink
 
 class ProjectImageSerializer(ModelSerializer):
@@ -12,6 +13,7 @@ class ProjectLinkSerializer(ModelSerializer):
             fields = ['url', 'link_type', 'label']
 
 class ProjectSerializer(ModelSerializer):
+     contributors = ContributorSerializer(many=True, read_only=True)
      images = ProjectImageSerializer(many=True, read_only=True) 
      links = ProjectLinkSerializer(many=True, read_only=True)
 
