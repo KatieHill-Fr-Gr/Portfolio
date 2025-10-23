@@ -28,10 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG')
+
+if DEBUG: 
+    CORS_ALLOW_ALL_ORIGINS = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -45,7 +47,8 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'projects',
-    'technologies'
+    'technologies',
+    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
@@ -64,6 +67,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
