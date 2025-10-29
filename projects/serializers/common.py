@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from users.serializers.common import ContributorSerializer
+from technologies.serializers.common import TechnologySerializer
 from ..models import Project, ProjectImage, ProjectLink
 
 class ProjectImageSerializer(ModelSerializer):
@@ -16,8 +17,9 @@ class ProjectSerializer(ModelSerializer):
      contributors = ContributorSerializer(many=True, read_only=True)
      images = ProjectImageSerializer(many=True, read_only=True) 
      links = ProjectLinkSerializer(many=True, read_only=True)
+     technologies = TechnologySerializer(many=True, read_only=True)
 
      class Meta:
             model = Project
-            fields = ['id', 'name', 'description', 'contributors', 'technologies', 'date_completed', 'is_public', 'images', 'links']
+            fields = ['id', 'name', 'description', 'subtitle', 'contributors', 'technologies', 'date_completed', 'is_public', 'images', 'links']
 
