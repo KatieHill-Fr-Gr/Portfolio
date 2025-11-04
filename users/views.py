@@ -23,7 +23,6 @@ class UsersListView(APIView):
         return Response(serializer.data)
     
 
-
 class SignInView(APIView):
     def post(self, request): 
         serialized_user = SignInSerializer(data=request.data)
