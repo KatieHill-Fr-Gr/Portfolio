@@ -11,8 +11,12 @@ from .models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
+
+# * Path: /users
+
 
 class SignInView(APIView):
     def post(self, request): 
@@ -41,11 +45,30 @@ class SignInView(APIView):
                 'email': user.email
             }
         }, status=status.HTTP_200_OK)
+    
+
+class UsersListView(APIView):
+    def get(self, request):
+        users = User.objects.all() 
+        serializer = ContributorSerializer(users, many=True)
+        return Response(serializer.data) 
+    
 
 class UserUpdateView(APIView):
-    def put(self, request, user_id):
+
+    def get(self, request, pk):
         try:
-            user = User.objects.get(id=user_id)
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ContributorSerializer(user)
+        return Response(serializer.data)
+
+
+    def put(self, request, pk):
+        try:
+            user = User.objects.get(id=pk)
         except User.DoesNotExist:
             return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 

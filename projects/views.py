@@ -22,6 +22,17 @@ class ProjectsListView(APIView):
         serialized_projects.is_valid(raise_exception=True) # validate request data
         serialized_projects.save() # save it
         return Response(serialized_projects.data) # return the data
+    
+    
+class ProjectUsersListView(APIView):
+    def get (self, request, pk):
+        try: 
+            project = Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return Response({"error": "Project not found"}, status=404)
+        users = project.contributors.all()
+        serializer = ContributorSerializer(users, many=True)
+        return Response(serializer.data)
         
         
 # * Path: /projects/<int:pk>
