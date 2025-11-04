@@ -17,12 +17,6 @@ from rest_framework.permissions import IsAuthenticated
 
 # * Path: /users
 
-class UsersListView(APIView):
-    def get(self, request):
-        users = User.objects.all() 
-        serializer = ContributorSerializer(users, many=True)
-        return Response(serializer.data)
-    
 
 class SignInView(APIView):
     def post(self, request): 
@@ -53,6 +47,13 @@ class SignInView(APIView):
         }, status=status.HTTP_200_OK)
     
 
+class UsersListView(APIView):
+    def get(self, request):
+        users = User.objects.all() 
+        serializer = ContributorSerializer(users, many=True)
+        return Response(serializer.data) 
+    
+
 class UserUpdateView(APIView):
 
     def get(self, request, pk):
@@ -63,7 +64,6 @@ class UserUpdateView(APIView):
         
         serializer = ContributorSerializer(user)
         return Response(serializer.data)
-
 
 
     def put(self, request, pk):
