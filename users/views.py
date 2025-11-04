@@ -14,6 +14,16 @@ from rest_framework import status
 
 # Create your views here.
 
+# * Path: /users
+
+class UsersListView(APIView):
+    def get(self, request):
+        users = User.objects.all() 
+        serializer = ContributorSerializer(users, many=True)
+        return Response(serializer.data)
+    
+
+
 class SignInView(APIView):
     def post(self, request): 
         serialized_user = SignInSerializer(data=request.data)
