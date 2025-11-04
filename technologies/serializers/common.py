@@ -4,4 +4,4 @@ from ..models import Technology
 class TechnologySerializer(ModelSerializer):
      class Meta:
             model = Technology
-            fields = ['id', 'name', 'icon']
+            fields = ['id', 'name', 'icon', 'category']
