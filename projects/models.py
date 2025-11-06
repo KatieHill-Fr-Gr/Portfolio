@@ -3,6 +3,7 @@ from django.db import models
 class Project(models.Model):
     name = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
+    summary = models.CharField(max_length=500)
     description = models.TextField()
     contributors = models.ManyToManyField(
         to='users.User',
