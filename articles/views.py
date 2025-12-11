@@ -12,7 +12,7 @@ from rest_framework.exceptions import NotFound
 class ArticlesListView(APIView):
 
     def get(self, request):
-        articles = Article.objects.prefetch_related('images', 'links').all()
+        articles = Article.objects.prefetch_related('images').all()
         serialized_articles = ArticleSerializer(articles, many=True)
         return Response(serialized_articles.data)
     
