@@ -7,7 +7,7 @@ class Article(models.Model):
     body = models.TextField()
     contributors = models.ManyToManyField(
         to='users.User',
-        related_name='contributed_projects',
+        related_name='contributed_articles',
         blank=True
     )
     date_completed = models.DateField(
