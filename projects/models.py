@@ -41,6 +41,8 @@ class ProjectImage(models.Model):
 class ProjectLink(models.Model):
     LINK_TYPES = [
         ('live', 'Live Site'),
+        ('github_frontend', 'GitHub (Frontend)'),
+        ('github_backend', 'GitHub (Backend)'),
         ('github', 'GitHub Repository')
     ]
     
@@ -54,7 +56,7 @@ class ProjectLink(models.Model):
     label = models.CharField(max_length=100, blank=True)
     
     class Meta:
-        unique_together = [['project', 'link_type']] # This ensures that a project can only have one url for each link_type (you can't have multiple "GitHub" links for one project)
+        unique_together = [['project', 'link_type']] 
     
     def __str__(self):
         return f'{self.project.name} - {self.get_link_type_display()}'

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Article
 
-from serializers.common import ArticleSerializer
+from .serializers.common import ArticleSerializer
 from users.serializers.common import ContributorSerializer
 
 from rest_framework.exceptions import NotFound
