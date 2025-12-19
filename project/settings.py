@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 import environ
 
 env = environ.Env()
@@ -28,12 +29,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG')
+DEBUG = env.bool('DEBUG', default=False)
 
-if DEBUG: 
-    CORS_ALLOW_ALL_ORIGINS = True
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = []
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:5173'
+    ]
+
+    CSRF_TRUSTED_ORIGINS = [
+        "http://127.0.0.1:8000",
+        "http://localhost:8000"
+    ]
+else: 
+    ALLOWED_HOSTS = [env('DEPLOYED_BACKEND_URL').replace('https://', '')]
+
+    CORS_ALLOWED_ORIGINS = [
+        env('DEPLOYED_FRONTEND_URL'),
+    ]
+
+    CSRF_TRUSTED_ORIGINS = [
+        env('DEPLOYED_BACKEND_URL'),
+    ]
 
 # Application definition
 
@@ -71,6 +89,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -150,6 +169,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

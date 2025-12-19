@@ -11,6 +11,8 @@ autopep8 = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
