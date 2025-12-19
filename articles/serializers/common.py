@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer
 from users.serializers.common import ContributorSerializer
-from technologies.serializers.common import TechnologySerializer
 from ..models import Article, ArticleImage
 
 class ArticleImageSerializer(ModelSerializer):
@@ -13,6 +12,6 @@ class ArticleSerializer(ModelSerializer):
      images = ArticleImageSerializer(many=True, read_only=True) 
 
      class Meta:
-            model = Project
+            model = Article
             fields = ['id', 'title', 'subtitle', 'summary', 'body', 'contributors','date_completed', 'is_public', 'images']
 
