@@ -4,7 +4,9 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
     summary = models.CharField(max_length=500)
-    description = models.TextField()
+    description1 = models.TextField()
+    description2 = models.TextField()
+    description3 = models.TextField()
     contributors = models.ManyToManyField(
         to='users.User',
         related_name='contributed_projects',
