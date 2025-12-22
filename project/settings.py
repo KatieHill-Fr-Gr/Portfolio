@@ -141,9 +141,6 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 CONTACT_EMAIL = env('CONTACT_EMAIL')
 
-print(f"Email password loaded: {len(EMAIL_HOST_PASSWORD)} characters")
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
