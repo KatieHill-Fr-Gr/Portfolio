@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.mail import send_mail
@@ -7,13 +8,14 @@ from .serializers import ContactSerializer
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def contact_view(request):
     serializer = ContactSerializer(data=request.data)
 
     if serializer.is_valid():
-        name = serializer.validated_data('name')
-        email = serializer.validated_data('email')
-        message = serializer.validated_data('message')
+        name = serializer.validated_data['name']
+        email = serializer.validated_data['email']
+        message = serializer.validated_data['message']
 
         try:
             send_mail(
@@ -29,7 +31,7 @@ def contact_view(request):
             )
         except Exception as e:
             return Response(
-                {"error": "Failed to send msessage. Please try again."},
+                {"error": "Failed to send message. Please try again."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
