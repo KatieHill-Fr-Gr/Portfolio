@@ -13,15 +13,15 @@ from rest_framework.exceptions import NotFound
 class ProjectsListView(APIView):
 
     def get(self, request):
-        projects = Project.objects.prefetch_related('images', 'links').all() # Reduce the number of calls to the api
+        projects = Project.objects.prefetch_related('images', 'links').all() 
         serialized_projects = ProjectSerializer(projects, many=True)
         return Response(serialized_projects.data)
     
     def post(self, request):
-        serialized_projects = ProjectSerializer(data=request.data) # deserialize request data
-        serialized_projects.is_valid(raise_exception=True) # validate request data
-        serialized_projects.save() # save it
-        return Response(serialized_projects.data) # return the data
+        serialized_projects = ProjectSerializer(data=request.data) 
+        serialized_projects.is_valid(raise_exception=True) 
+        serialized_projects.save()
+        return Response(serialized_projects.data)
     
     
 class ProjectUsersListView(APIView):
@@ -59,7 +59,7 @@ class ProjectDetailView(APIView):
         serialized_project = ProjectSerializer(project, data=request.data, partial=True)
         serialized_project.is_valid(raise_exception=True)
         serialized_project.save()
-        return Response(ProjectSerializer(project).data) # Return the full project object including contributors, image and links
+        return Response(ProjectSerializer(project).data)
     
     # Delete
     def delete(self, request, pk):
